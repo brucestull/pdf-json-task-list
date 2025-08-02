@@ -36,6 +36,7 @@ Generate a styled PDF checklist for **Daily**, **Weekly**, or **Monthly** tasks 
 
     ```bash
     pipenv install
+    pipenv shell
     ```
 
     or, if you prefer `pip`:
