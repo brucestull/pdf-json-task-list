@@ -1,0 +1,4 @@
+*.pdf
+!example_daily_tasks.json
+!example_weekly_tasks.json
+!example_monthly_tasks.json

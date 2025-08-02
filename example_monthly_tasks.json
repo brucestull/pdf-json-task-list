@@ -1,0 +1,50 @@
+{
+  "Deep Home Cleaning": [
+    "Clean windows inside and out",
+    "Vacuum under furniture and behind appliances",
+    "Dust ceiling fans and light fixtures",
+    "Wipe down interior of cabinets and refrigerator"
+  ],
+  "Finances & Budgeting": [
+    "Review bank & credit card statements",
+    "Update monthly budget and forecast",
+    "Pay rent/mortgage and large recurring bills",
+    "Audit subscriptions and cancel unused services"
+  ],
+  "Maintenance & Repairs": [
+    "Test smoke & carbon monoxide detectors",
+    "Replace HVAC air filters",
+    "Inspect plumbing fixtures for leaks",
+    "Check and replace any burned-out light bulbs"
+  ],
+  "Planning & Goals": [
+    "Set or revise monthly personal & professional goals",
+    "Review progress on last month's goals",
+    "Plan key events and appointments",
+    "Sync shared calendars with family/colleagues"
+  ],
+  "Digital Organization": [
+    "Backup important documents to cloud storage",
+    "Delete or archive unused files and apps",
+    "Organize and tag photo library",
+    "Clean up email folders and spam"
+  ],
+  "Outdoors & Garden": [
+    "Prune trees, shrubs, and perennials",
+    "Fertilize lawn and garden beds",
+    "Inspect outdoor lighting and fixtures",
+    "Clean gutters and downspouts"
+  ],
+  "Vehicle Care": [
+    "Check tire tread depth and rotate if needed",
+    "Top off all fluid levels (oil, coolant, washer)",
+    "Clean interior and exterior thoroughly",
+    "Verify insurance and registration are up to date"
+  ],
+  "Wellness & Self-Care": [
+    "Schedule annual medical & dental check-ups",
+    "Review and adjust exercise/fitness plan",
+    "Plan social activities with friends or family",
+    "Reflect on mental health & self-care practices"
+  ]
+}

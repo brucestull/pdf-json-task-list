@@ -1,0 +1,50 @@
+{
+  "Personal Care": [
+    "Make your bed",
+    "Brush teeth & floss",
+    "Shower or wash face",
+    "Skincare routine",
+    "Get dressed"
+  ],
+  "Nutrition & Health": [
+    "Drink a full glass of water upon waking",
+    "Prepare & eat balanced meals/snacks",
+    "Take any medications or supplements",
+    "Do a short stretch or quick exercise (e.g. 5-minute walk or yoga)",
+    "Practice a moment of mindfulness, gratitude journaling, or breathing"
+  ],
+  "Home Upkeep": [
+    "Tidy high-traffic areas (living room & bedroom pickups)",
+    "Wash dishes or load the dishwasher",
+    "Wipe down kitchen counters & table",
+    "Sweep or spot-vacuum if needed",
+    "Take out trash/recycling if full",
+    "Water indoor plants"
+  ],
+  "Laundry & Linens": [
+    "Start or switch a load of laundry (if part of your rotation)",
+    "Fold and put away any clean laundry"
+  ],
+  "Digital Organization": [
+    "Zero-inbox: clear/archive/respond to new emails",
+    "Quick file-check: move or rename any misfiled downloads",
+    "Review and clear notifications (Slack, Teams, etc.)"
+  ],
+  "Paper & Physical Inbox": [
+    "Sort today’s mail: Action (bills/forms)",
+    "Sort today’s mail: File (keep)",
+    "Sort today’s mail: Recycle/shred (junk)",
+    "Tidy your desk or entryway surface"
+  ],
+  "Planning & Review": [
+    "Check today’s calendar & appointments",
+    "Review your “today” to-do list",
+    "Migrate any unfinished items to your weekly list",
+    "Add new tasks or ideas to a future (weekly/monthly) list"
+  ],
+  "Care & Connection": [
+    "Quick check-in with dependents (kids, pets, elderly family)",
+    "Water garden or outdoor plants",
+    "Feed/walk pets"
+  ]
+}

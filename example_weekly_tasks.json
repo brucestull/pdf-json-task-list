@@ -1,0 +1,55 @@
+{
+  "Home Maintenance": [
+    "Clean bathroom (sink, shower, toilet)",
+    "Dust all surfaces and shelves",
+    "Vacuum and mop floors",
+    "Wipe down kitchen appliances",
+    "Change bed linens"
+  ],
+  "Laundry & Linens": [
+    "Wash bed sheets and towels",
+    "Iron clothes as needed",
+    "Clean lint trap/filter in dryer"
+  ],
+  "Shopping & Errands": [
+    "Grocery shop for the week",
+    "Pick up prescriptions",
+    "Refill household supplies (toilet paper, cleaning products)"
+  ],
+  "Digital Organization": [
+    "Backup important files",
+    "Update software & OS patches",
+    "Organize downloads folder",
+    "Clean up desktop icons"
+  ],
+  "Finances & Bills": [
+    "Review weekly budget",
+    "Pay any due bills",
+    "Reconcile transactions in banking app"
+  ],
+  "Planning & Review": [
+    "Plan upcoming week's calendar",
+    "Review progress on goals",
+    "Schedule appointments & meetings"
+  ],
+  "Outdoors & Garden": [
+    "Mow lawn or trim grass",
+    "Water outdoor plants thoroughly",
+    "Tidy patio/deck"
+  ],
+  "Pet Care": [
+    "Give pet a bath or grooming",
+    "Trim pet nails if needed",
+    "Restock pet food & treats"
+  ],
+  "Vehicle Maintenance": [
+    "Check tire pressure and condition",
+    "Check oil & fluid levels",
+    "Clean interior and remove trash"
+  ],
+  "Wellness & Self-Care": [
+    "Plan meals and prep ingredients",
+    "Schedule exercise sessions",
+    "Reflect on mental health check-ins"
+  ]
+}
