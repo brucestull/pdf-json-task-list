@@ -1,7 +1,6 @@
 # PDF-JSON Task List Generator
 
-Generate a styled PDF “Daily Tasks” checklist from a simple JSON file.  
-This repo currently supports a **daily** tasks list; future updates will add weekly and monthly lists.
+Generate a styled PDF checklist for **Daily**, **Weekly**, or **Monthly** tasks from simple JSON files.  
 
 ---
 
@@ -11,7 +10,7 @@ This repo currently supports a **daily** tasks list; future updates will add wee
 - [Installation](#installation)  
 - [File Structure](#file-structure)  
 - [Usage](#usage)  
-- [daily_tasks.json Format](#daily_tasksjson-format)  
+- [JSON Format](#json-format)  
 - [Script Overview](#script-overview)  
 - [Glossary of Imports & Key Methods](#glossary-of-imports--key-methods)  
 - [License](#license)  
@@ -20,31 +19,31 @@ This repo currently supports a **daily** tasks list; future updates will add wee
 
 ## Prerequisites
 
-- Python 3.7+  
-- [pipenv](https://pipenv.pypa.io/) (or use `pip` + virtualenv)  
+- **Python 3.12+**  
+- [pipenv](https://pipenv.pypa.io/) (or `pip` + `virtualenv`)  
 
 ---
 
 ## Installation
 
-1. Clone this repo:
-    ```bash
-    git clone https://github.com/yourusername/pdf-json-task-list.git
-    cd pdf-json-task-list
-    ```
+1. **Clone** this repository:
+        ```bash
+        git clone https://github.com/yourusername/pdf-json-task-list.git
+        cd pdf-json-task-list
+        ```
 
-2. Install dependencies with pipenv:
+2. **Install** dependencies:
 
     ```bash
     pipenv install
     ```
 
-    Or with plain pip:
+    or, if you prefer `pip`:
 
     ```bash
     python3 -m venv venv
     source venv/bin/activate
-    pip install -r requirements.txt
+    pip install reportlab
     ```
 
 ---
@@ -57,31 +56,46 @@ This repo currently supports a **daily** tasks list; future updates will add wee
 ├── Pipfile
 ├── Pipfile.lock
 ├── README.md
-├── daily_tasks.json       # Your task categories & items
-└── generate_daily_tasks.py  # Script to build the PDF
+├── example_daily_tasks.json
+├── example_weekly_tasks.json
+├── example_monthly_tasks.json
+└── generate_tasks_list.py
 ```
+
+* **example\_\*.json** — Your task definitions (one file per period).
+* **generate\_tasks\_list.py** — CLI script that reads JSON → produces PDF.
 
 ---
 
 ## Usage
 
-1. Edit **daily\_tasks.json** to tweak categories or tasks.
-2. Run the generator:
+Run the generator with one argument: `day`, `week`, or `month`.
 
-    ```bash
-    pipenv run python generate_daily_tasks.py
-    ```
-3. The script produces **Tinys\_Daily\_Tasks.pdf** in the same folder, with:
+```bash
+# Daily checklist
+./generate_tasks_list.py day
+# → generates Tasks_Daily.pdf
 
-    * A centered title
-    * Checkbox-style bullets
-    * Your full file path in the footer of each page
+# Weekly checklist
+./generate_tasks_list.py week
+# → generates Tasks_Weekly.pdf
+
+# Monthly checklist
+./generate_tasks_list.py month
+# → generates Tasks_Monthly.pdf
+```
+
+Your PDF will include:
+
+* A centered title (`Daily Tasks` / `Weekly Tasks` / `Monthly Tasks`)
+* Checkbox-style bullets
+* The PDF’s absolute file path in the footer of each page
 
 ---
 
-## daily\_tasks.json Format
+## JSON Format
 
-A simple object where each key is a category (emoji OK!) and each value is an array of task strings. Example:
+Each **example\_\*.json** file is a JSON object whose keys are **categories** and whose values are **arrays of task strings**. Emojis in category names are allowed!
 
 ```json
 {
@@ -90,10 +104,10 @@ A simple object where each key is a category (emoji OK!) and each value is an ar
         "Brush teeth & floss",
         "Shower or wash face"
     ],
-    "🥗 Nutrition & Health": [
-        "Drink a full glass of water",
-        "Prepare balanced meals"
-    ]
+        "💻 Digital Organization": [
+        "Zero-inbox: clear/archive/respond to new emails",
+        "Review notifications (Slack, Teams, etc.)"
+        ]
 }
 ```
 
@@ -101,17 +115,20 @@ A simple object where each key is a category (emoji OK!) and each value is an ar
 
 ## Script Overview
 
-**generate\_daily\_tasks.py** does the following:
+**generate\_tasks\_list.py** performs the following steps:
 
-1. **Loads** `daily_tasks.json`.
-2. **Registers** a Unicode font (`DejaVuSans`) so that checkboxes and file paths render correctly.
-3. Defines `_draw_footer()`, which ReportLab calls on each page to stamp the absolute PDF path in the bottom margin.
-4. Builds a list of **flowables**:
-    * A large, centered title
-    * For each category: a heading + checkbox-style `Paragraph` items
+1. **Parse** the CLI argument (`day`/`week`/`month`).
+2. **Select** the matching JSON input file, PDF output filename, and title text.
+3. **Load** the JSON tasks into memory.
+4. **Register** the DejaVuSans font so both checkboxes and Unicode file-paths render correctly.
+5. **Define** paragraph styles for title, categories, and task items (with checkbox bullets).
+6. **Build** a list of “flowables” (ReportLab objects):
+
+    * Title paragraph
+    * Category headings + task paragraphs
     * Spacers for vertical gaps
-5. **Removes** any trailing spacer (to avoid a blank “third” page).
-6. Calls `doc.build(...)` with `onFirstPage` and `onLaterPages` pointing to `_draw_footer`, generating the final PDF.
+7. **Strip** any trailing spacer to avoid a blank final page.
+8. **Render** the PDF via `doc.build(...)`, passing a footer callback that stamps the file’s absolute path on each page.
 
 ---
 
@@ -119,30 +136,31 @@ A simple object where each key is a category (emoji OK!) and each value is an ar
 
 ### Imports
 
-| Import                                     | Purpose                                                                     |
-| ------------------------------------------ | --------------------------------------------------------------------------- |
-| `os`                                       | File-system utilities; used to compute `os.path.abspath(FILE_NAME)`.        |
-| `json`                                     | Parse the JSON tasks file.                                                  |
-| `reportlab.lib.pagesizes.letter`           | Standard US letter page size.                                               |
-| `reportlab.lib.units.inch`                 | Converts inches to points for positioning.                                  |
-| `reportlab.pdfbase.pdfmetrics`             | ReportLab’s font registry API.                                              |
-| `reportlab.pdfbase.ttfonts.TTFont`         | Load and register TrueType fonts (e.g. DejaVuSans).                         |
-| `reportlab.platypus.SimpleDocTemplate`     | High-level PDF builder taking a list of “flowables.”                        |
-| `reportlab.platypus.Paragraph`             | Text block element with styling and optional bullet.                        |
-| `reportlab.platypus.Spacer`                | Vertical blank space between flowables.                                     |
-| `reportlab.lib.styles.getSampleStyleSheet` | Provides a collection of base styles (`Title`, `Heading2`, `Normal`, etc.). |
-| `reportlab.lib.styles.ParagraphStyle`      | Customize fonts, sizes, alignment, spacing for `Paragraph`.                 |
+| Import                                     | Purpose                                                     |
+| ------------------------------------------ | ----------------------------------------------------------- |
+| `os`                                       | File-system utilities (e.g. `os.path.abspath`).             |
+| `json`                                     | Load & parse the JSON task files.                           |
+| `argparse`                                 | Parse the `day`/`week`/`month` CLI argument.                |
+| `reportlab.lib.pagesizes.letter`           | Standard US Letter page size.                               |
+| `reportlab.lib.units.inch`                 | Inch-to-points conversion for positioning.                  |
+| `reportlab.pdfbase.pdfmetrics`             | ReportLab font registry API.                                |
+| `reportlab.pdfbase.ttfonts.TTFont`         | Load & register TrueType fonts (DejaVuSans).                |
+| `reportlab.platypus.SimpleDocTemplate`     | High-level PDF builder that takes a list of “flowables.”    |
+| `reportlab.platypus.Paragraph`             | Styled text blocks, with optional bullets.                  |
+| `reportlab.platypus.Spacer`                | Blank vertical space to separate sections.                  |
+| `reportlab.lib.styles.getSampleStyleSheet` | Provides base styles (`Title`, `Heading2`, `Normal`).       |
+| `reportlab.lib.styles.ParagraphStyle`      | Customize fonts, sizes, alignment, spacing for `Paragraph`. |
 
 ### Key Methods & Commands
 
-| Method / Command                                                        | What It Does                                                                                  |
-| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `pdfmetrics.registerFont(TTFont(...))`                                  | Makes the specified TTF font available for drawing text and bullets in the PDF.               |
-| `_draw_footer(canvas, doc)`                                             | Called on each page to draw `os.path.abspath(FILE_NAME)` in 8 pt DejaVuSans at bottom margin. |
-| `Paragraph(text, style, bulletText=…)`                                  | Creates a rich text element; `bulletText` renders the checkbox character before the text.     |
-| `Spacer(width, height)`                                                 | Inserts vertical space; helps control page layout.                                            |
-| `if story and isinstance(story[-1], Spacer): story.pop()`               | Removes any trailing spacer to prevent an extra blank page.                                   |
-| `doc.build(story, onFirstPage=_draw_footer, onLaterPages=_draw_footer)` | Renders all flowables to PDF, invoking the footer callback on every page.                     |
+| Method / Command                                          | Description                                                                          |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `pdfmetrics.registerFont(TTFont(...))`                    | Registers a TTF font so ReportLab can render Unicode (checkboxes & file paths).      |
+| `_draw_footer(canvas, doc, path)`                         | Callback that draws the PDF’s absolute path in 8 pt DejaVuSans at the bottom margin. |
+| `Paragraph(text, style, bulletText=SQUARE_BULLET)`        | Creates a text block; `bulletText` injects the checkbox glyph before each task line. |
+| `Spacer(width, height)`                                   | Inserts vertical space (in points).                                                  |
+| `if story and isinstance(story[-1], Spacer): story.pop()` | Removes a trailing spacer to prevent a blank last page.                              |
+| `doc.build(flowables, onFirstPage=…, onLaterPages=…)`     | Renders all flowables into a PDF, calling the footer callback on every page.         |
 
 ---
 
